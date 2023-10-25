@@ -1,5 +1,22 @@
-function main() {
-  copyDatatoAnotherSheet();
+
+const FOLDERNAME = "chula";
+
+function ListFilesInFolder(folderName=FOLDERNAME) {
+  var folder = DriveApp.getFoldersByName(folderName).next();
+
+  var files = folder.getFiles();
+
+  var fileDetailsArray = [];
+
+  while (files.hasNext()) {
+    var file = files.next();
+    var fileName = file.getName();
+    var fileId = file.getId();
+    var fileDetails = { name: fileName, id: fileId };
+    fileDetailsArray.push(fileDetails);
+  }
+
+  Logger.log('Files in ' + folderName + ':\n' + JSON.stringify(fileDetailsArray));
 }
 
 function copyDatatoAnotherSheet() {
@@ -39,4 +56,9 @@ function copyDatatoAnotherSheet() {
       }
     }
   }
+}
+
+function main() {
+  ListFilesInFolder();
+  copyDatatoAnotherSheet();
 }
